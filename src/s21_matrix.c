@@ -209,7 +209,7 @@ int s21_minor_matrix(matrix_t *A, matrix_t *result) {
   for (int i = 0; i < A->rows; i++) {
     for (int j = 0; j < A->columns; j++) {
       s21_minor_element(A, &buffer, i, j);
-      det = s21_determinant_simple2x2(&buffer, &det);
+      s21_determinant(&buffer, &det);
       result->matrix[i][j] = det;
     }
   }
