@@ -94,14 +94,23 @@ int s21_transpose(matrix_t *A, matrix_t *result) {
 
 int s21_calc_complements(matrix_t *A, matrix_t *result) {
   s21_create_matrix(A->rows, A->columns, result);
+
   matrix_t buffer = *result;
-  double det;
-  for (int i = 0; i < A->rows; i++) {
-    for (int j = 0; j < A->columns; j++) {
-      s21_minor_matrix(A, &buffer, i, j);
-      det = s21_determinant_simple2x2(&buffer, &det);
-      result->matrix[i][j] = det * pow(-1, (i + j));
-    }
+  s21_minor_matrix(A, &buffer);
+  s21_chess_sign_matrix(buffer, result);
+
+  s21_remove_matrix(&buffer);
+
+  return OK;
+}
+
+int s21_determinant(matrix_t *A, double *result) {
+  matrix_t buffer = *A;
+  double det = 0.0;
+  for (int j = 0; j < A->columns; j++) {
+    // s21_minor_matrix(A, &buffer, 0, j);
+    det = s21_determinant_simple2x2(&buffer, &det);
+    *result += det * pow(-1, j);
   }
 
   return OK;
@@ -125,7 +134,7 @@ void s21_output_matrix(const matrix_t result) {
   }
 }
 
-int s21_minor_matrix(matrix_t *A, matrix_t *result, int rows, int columns) {
+int s21_minor_element(matrix_t *A, matrix_t *result, int rows, int columns) {
   int result_rows = A->rows - 1;
   int result_columns = A->columns - 1;
   s21_create_matrix(result_rows, result_columns, result);
@@ -141,6 +150,33 @@ int s21_minor_matrix(matrix_t *A, matrix_t *result, int rows, int columns) {
     // Если строчка не была пустой, то мы идем на следующую
     if (i != rows) result_rows++;
     result_columns = 0;
+  }
+
+  return OK;
+}
+
+int s21_minor_matrix(matrix_t *A, matrix_t *result) {
+  s21_create_matrix(A->rows, A->columns, result);
+  matrix_t buffer = *result;
+  double det = 0.0;
+  for (int i = 0; i < A->rows; i++) {
+    for (int j = 0; j < A->columns; j++) {
+      s21_minor_element(A, &buffer, i, j);
+      det = s21_determinant_simple2x2(&buffer, &det);
+      result->matrix[i][j] = det;
+    }
+  }
+  s21_remove_matrix(&buffer);
+
+  return OK;
+}
+
+// Выставление знаков для последнего этапа s21_calc_complements
+int s21_chess_sign_matrix(matrix_t A, matrix_t *result) {
+  for (int i = 0; i < A.rows; i++) {
+    for (int j = 0; j < A.columns; j++) {
+      result->matrix[i][j] = A.matrix[i][j] * pow(-1, (i + j));
+    }
   }
 
   return OK;
