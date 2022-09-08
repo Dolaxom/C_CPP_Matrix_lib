@@ -105,13 +105,21 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
 }
 
 int s21_determinant(matrix_t *A, double *result) {
-  matrix_t buffer = *A;
+  matrix_t buffer_1;
+  matrix_t buffer_2;
+  s21_create_matrix(A->rows, A->columns, &buffer_1);
+  s21_create_matrix(A->rows, A->columns, &buffer_2);
   double det = 0.0;
+  *result = 0.0;
   for (int j = 0; j < A->columns; j++) {
-    // s21_minor_matrix(A, &buffer, 0, j);
-    det = s21_determinant_simple2x2(&buffer, &det);
-    *result += det * pow(-1, j);
+    s21_chess_sign_matrix(*A, &buffer_1);
+    s21_minor_element(A, &buffer_2, 0, j);
+    det = s21_determinant_simple2x2(&buffer_2, &det);
+    *result += buffer_1.matrix[0][j] * det;
   }
+
+  s21_remove_matrix(&buffer_1);
+  s21_remove_matrix(&buffer_2);
 
   return OK;
 }
