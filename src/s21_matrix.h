@@ -7,6 +7,7 @@
 
 #define SUCCESS 1
 #define FAILURE 0
+#define EPS 1e-07
 
 enum { OK, MATRIX_ERROR, CALC_ERROR };
 
@@ -38,10 +39,11 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result);
 
 // helpers
 int s21_init_matrix(int rows, int columns, matrix_t *result);
-void s21_output_matrix(const matrix_t result);
+// void s21_output_matrix(const matrix_t result);
 int s21_minor_element(matrix_t *A, matrix_t *result, int rows, int columns);
 int s21_minor_matrix(matrix_t *A, matrix_t *result);
 int s21_chess_sign_matrix(matrix_t A, matrix_t *result);
 int s21_determinant_simple2x2(matrix_t *A, double *result);
+int s21_check_matrix(matrix_t *A);
 
 #endif  // S21_MATRIX_S21_MATRIX_H
