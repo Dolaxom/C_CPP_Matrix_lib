@@ -3,7 +3,7 @@
 ### A library consisting of 11 functions for working with matrices of any size, written entirely in pure C
 
 
-| Unit test coverage over 90%    | ✅ |
+| Unit-tests coverage over 90%    | ✅ |
 |--------------------------------|---|
 | Verified google style code     | ✅ |
 | Tested for leaks with Valgrind | ✅ |
