@@ -1,0 +1,3 @@
+/Users/thedolaxom/Desktop/Проекты/Программирование/C++/Matrix_2.0/cmake-build-debug/CMakeFiles/Matrix_2_0.dir
+/Users/thedolaxom/Desktop/Проекты/Программирование/C++/Matrix_2.0/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/thedolaxom/Desktop/Проекты/Программирование/C++/Matrix_2.0/cmake-build-debug/CMakeFiles/rebuild_cache.dir
