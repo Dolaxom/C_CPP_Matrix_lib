@@ -21,24 +21,40 @@ public:
     void S21SetColumns(double new_value) { _columns = new_value; }
     double **S21GetMatrix() const { return _matrix; }
 
+    void S21OutputMatrix() const;
+
     double& operator ()(int i, int j);
     S21Matrix operator =(const S21Matrix &other);
     bool operator ==(const S21Matrix &other);
     S21Matrix operator +(const S21Matrix& other);
+    S21Matrix operator -(const S21Matrix& other);
+    S21Matrix operator *(double other);
+    S21Matrix operator *(const S21Matrix& other);
+    S21Matrix operator +=(const S21Matrix& other);
+    S21Matrix operator -=(const S21Matrix& other);
+    S21Matrix operator *=(double other);
+    S21Matrix operator *=(const S21Matrix& other);
 
 protected:
-    bool EqMatrix(const S21Matrix& other) const;
-    void sum_matrix(const S21Matrix& other);
-    bool MemoryAllocation();
-    void CopyMatrix(const S21Matrix &other);
+    bool S21EqMatrix(const S21Matrix& other) const;
+    void S21SumMatrix(const S21Matrix& other);
+    void S21SubMatrix(const S21Matrix& other);
+    void S21MulNumber(double other);
+    S21Matrix S21MulMatrix(const S21Matrix& other);
+
+    /*
+    * HELPERS
+    */
+    bool S21MemoryAllocation();
+    void S21CopyMatrix(const S21Matrix &other);
 
 private:
     int _rows = 0;
     int _columns = 0;
     double **_matrix;
 
-    void free_matrix();
-    void zeroed_matrix();
+    void S21FreeMatrix();
+    void S21ZeroedMatrix();
 };
 
 
