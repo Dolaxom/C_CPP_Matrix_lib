@@ -16,7 +16,9 @@ int main() {
 //    S21Matrix matrix_result = matrix_a * matrix_b;
     matrix_a *= matrix_b;
 
-    std::cout << "final\n";
     matrix_a.S21OutputMatrix();
+
+    S21Matrix matrix_transpose = matrix_a.transpose();
+    matrix_transpose.S21OutputMatrix();
     return 0;
 }

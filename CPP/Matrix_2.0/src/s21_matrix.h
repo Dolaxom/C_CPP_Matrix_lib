@@ -35,6 +35,8 @@ public:
     S21Matrix operator *=(double other);
     S21Matrix operator *=(const S21Matrix& other);
 
+    S21Matrix transpose();
+
 protected:
     bool S21EqMatrix(const S21Matrix& other) const;
     void S21SumMatrix(const S21Matrix& other);

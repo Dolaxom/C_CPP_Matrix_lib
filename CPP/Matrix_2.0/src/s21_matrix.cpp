@@ -273,3 +273,16 @@ void S21Matrix::S21OutputMatrix() const
     }
     std::cout << "\n";
 }
+
+S21Matrix S21Matrix::transpose() {
+    S21Matrix ResultMatrix(this->_columns, this->_rows);
+    for (int i = 0; i < ResultMatrix._rows; i++)
+    {
+        for (int j = 0; j < ResultMatrix._columns; j++)
+        {
+            ResultMatrix._matrix[i][j] = this->_matrix[j][i];
+        }
+    }
+
+    return ResultMatrix;
+}
