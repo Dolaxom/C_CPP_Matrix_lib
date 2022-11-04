@@ -286,3 +286,45 @@ S21Matrix S21Matrix::transpose() {
 
     return ResultMatrix;
 }
+
+S21Matrix S21Matrix::calc_complements() {
+
+
+    return S21Matrix();
+}
+
+S21Matrix S21Matrix::S21MinorElement(int row, int column) {
+    int ResultRows = this->_rows - 1;
+    int ResultColumns = this->_columns - 1;
+    S21Matrix ResultMatrix(ResultRows, ResultColumns);
+    ResultRows = 0;
+    ResultColumns = 0;
+
+    for (int i = 0; i < this->_rows; i++) {
+        for (int j = 0; j < this->_columns; j++) {
+            if (i == row || j == column) continue;
+            ResultMatrix._matrix[ResultRows][ResultColumns] = this->_matrix[i][j];
+            ResultColumns++;
+        }
+        if (i != row) ResultRows++;
+        ResultColumns = 0;
+    }
+
+    return ResultMatrix;
+}
+
+S21Matrix S21Matrix::S21MinorMatrix() {
+    S21Matrix ResultMatrix(this->_rows - 1, this->_columns - 1);
+    S21Matrix Buffer(this->_rows, this->_columns);
+    double det = 0.0;
+    for (int i = 0; i < this->_rows; i++) {
+        for (int j = 0; j < this->_columns; j++) {
+            Buffer = (*this).S21MinorElement(i, j);
+            // TODO determinant
+            ResultMatrix._matrix[i][j] = 0; // TODO
+            Buffer.S21FreeMatrix();
+        }
+    }
+
+    return ResultMatrix;
+}

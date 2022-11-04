@@ -36,6 +36,7 @@ public:
     S21Matrix operator *=(const S21Matrix& other);
 
     S21Matrix transpose();
+    S21Matrix calc_complements();
 
 protected:
     bool S21EqMatrix(const S21Matrix& other) const;
@@ -57,6 +58,9 @@ private:
 
     void S21FreeMatrix();
     void S21ZeroedMatrix();
+
+    S21Matrix S21MinorElement(int row, int column);
+    S21Matrix S21MinorMatrix();
 };
 
 
