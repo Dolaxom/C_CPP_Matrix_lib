@@ -148,13 +148,44 @@ S21Matrix S21Matrix::S21Transpose() {
 }
 
 S21Matrix S21Matrix::S21CalcComplements() {
+    S21Matrix ResultMatrix(this->_columns, this->_rows);
+    S21Matrix Buffer(this->_columns, this->_rows);
+    Buffer = S21MinorMatrix();
+    ResultMatrix = Buffer.S21ChessSignMatrix();
 
-
-    return S21Matrix();
+    return ResultMatrix;
 }
 
 double S21Matrix::S21Determinant() {
-    return 0;
+    assert(_rows == _columns);
+    S21Matrix Buffer(this->_columns, this->_rows);
+    double Result = 0.0;
+
+    if (_rows == 1) {
+        Result = _matrix[0][0];
+    } else if (_rows == 2) {
+        Result = S21DeterminantSimple2X2();
+    } else if (_rows == 3) {
+        Buffer = S21CalcComplements();
+        for (int j = 0; j < _rows; j++) {
+            Result += _matrix[0][j] * Buffer._matrix[0][j];
+        }
+
+    } else {
+        double Det = 0.0f;
+        for (int j = 0; j < _rows; j++) {
+            Buffer.S21MinorElement(0, j);
+            Det = Buffer.S21Determinant();
+            Det *= _matrix[0][j];
+            if (j % 2) {
+                Result -= Det;
+            } else {
+                Result += Det;
+            }
+        }
+    }
+
+    return Result;
 }
 
 
@@ -318,15 +349,15 @@ S21Matrix S21Matrix::S21MinorElement(int row, int column) {
 }
 
 S21Matrix S21Matrix::S21MinorMatrix() {
-    S21Matrix ResultMatrix(this->_rows - 1, this->_columns - 1);
+    S21Matrix ResultMatrix(this->_rows, this->_columns);
     S21Matrix Buffer(this->_rows, this->_columns);
     double det = 0.0;
     for (int i = 0; i < this->_rows; i++) {
         for (int j = 0; j < this->_columns; j++) {
-            Buffer = (*this).S21MinorElement(i, j);
+            Buffer = S21MinorElement(i, j);
             double Det = Buffer.S21Determinant();
             ResultMatrix._matrix[i][j] = Det;
-            Buffer.S21FreeMatrix();
+//            Buffer.S21FreeMatrix();
         }
     }
 
