@@ -46,7 +46,6 @@ double& S21Matrix::operator()(int i, int j)
     return _matrix[i][j];
 }
 
-
 S21Matrix S21Matrix::operator=(const S21Matrix &other)
 {
     if (_matrix != nullptr)
@@ -134,6 +133,30 @@ S21Matrix S21Matrix::operator*=(const S21Matrix &other)
     *this = MatrixTmp.S21MulMatrix(other);
     return *this;
 }
+
+S21Matrix S21Matrix::S21Transpose() {
+    S21Matrix ResultMatrix(this->_columns, this->_rows);
+    for (int i = 0; i < ResultMatrix._rows; i++)
+    {
+        for (int j = 0; j < ResultMatrix._columns; j++)
+        {
+            ResultMatrix._matrix[i][j] = this->_matrix[j][i];
+        }
+    }
+
+    return ResultMatrix;
+}
+
+S21Matrix S21Matrix::S21CalcComplements() {
+
+
+    return S21Matrix();
+}
+
+double S21Matrix::S21Determinant() {
+    return 0;
+}
+
 
 /*
  * HELPERS
@@ -274,25 +297,6 @@ void S21Matrix::S21OutputMatrix() const
     std::cout << "\n";
 }
 
-S21Matrix S21Matrix::transpose() {
-    S21Matrix ResultMatrix(this->_columns, this->_rows);
-    for (int i = 0; i < ResultMatrix._rows; i++)
-    {
-        for (int j = 0; j < ResultMatrix._columns; j++)
-        {
-            ResultMatrix._matrix[i][j] = this->_matrix[j][i];
-        }
-    }
-
-    return ResultMatrix;
-}
-
-S21Matrix S21Matrix::calc_complements() {
-
-
-    return S21Matrix();
-}
-
 S21Matrix S21Matrix::S21MinorElement(int row, int column) {
     int ResultRows = this->_rows - 1;
     int ResultColumns = this->_columns - 1;
@@ -320,11 +324,26 @@ S21Matrix S21Matrix::S21MinorMatrix() {
     for (int i = 0; i < this->_rows; i++) {
         for (int j = 0; j < this->_columns; j++) {
             Buffer = (*this).S21MinorElement(i, j);
-            // TODO determinant
-            ResultMatrix._matrix[i][j] = 0; // TODO
+            double Det = Buffer.S21Determinant();
+            ResultMatrix._matrix[i][j] = Det;
             Buffer.S21FreeMatrix();
         }
     }
 
     return ResultMatrix;
+}
+
+S21Matrix S21Matrix::S21ChessSignMatrix() {
+    S21Matrix ResultMatrix(this->_rows, this->_columns);
+    for (int i = 0; i < this->_rows; i++) {
+        for (int j = 0; j < this->_columns; j++) {
+            ResultMatrix._matrix[i][j] = this->_matrix[i][j] * pow(-1, (i+j));
+        }
+    }
+
+    return ResultMatrix;
+}
+
+double S21Matrix::S21DeterminantSimple2X2() {
+    return _matrix[0][0] * _matrix[1][1] - _matrix[0][1] * _matrix[1][0];
 }
