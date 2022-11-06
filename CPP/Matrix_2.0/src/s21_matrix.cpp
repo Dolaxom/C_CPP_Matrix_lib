@@ -322,3 +322,18 @@ S21Matrix S21Matrix::S21ChessSignMatrix() {
 double S21Matrix::S21DeterminantSimple2X2() {
   return _matrix[0][0] * _matrix[1][1] - _matrix[0][1] * _matrix[1][0];
 }
+
+S21Matrix S21Matrix::S21InverseMatrix() {
+  S21Matrix ResultMatrix(this->_rows, this->_columns);
+  double Det = 0.0f;
+  Det = S21Determinant();
+  if (Det != 0.0) {
+    S21Matrix Buffer1(this->_rows, this->_columns);
+    S21Matrix Buffer2(this->_rows, this->_columns);
+    Buffer1 = S21CalcComplements();
+    Buffer2 = Buffer1.S21Transpose();
+    ResultMatrix = Buffer2 * (1.0 / Det);
+  }
+
+  return ResultMatrix;
+}

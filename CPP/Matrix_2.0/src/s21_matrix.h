@@ -39,6 +39,7 @@ class S21Matrix {
   S21Matrix S21Transpose();
   S21Matrix S21CalcComplements();
   double S21Determinant();
+  S21Matrix S21InverseMatrix();
 
  protected:
   bool S21EqMatrix(const S21Matrix& other) const;
