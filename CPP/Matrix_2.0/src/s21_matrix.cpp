@@ -26,6 +26,17 @@ S21Matrix::S21Matrix(S21Matrix &&other) noexcept {
 
 S21Matrix::~S21Matrix() { S21FreeMatrix(); }
 
+void S21Matrix::S21SetRows(double new_value) {
+  S21FreeMatrix();
+  this->_rows = new_value;
+  S21MemoryAllocation();
+}
+void S21Matrix::S21SetColumns(double new_value) {
+  S21FreeMatrix();
+  this->_columns = new_value;
+  S21MemoryAllocation();
+}
+
 /*
  * OPERATORS
  */

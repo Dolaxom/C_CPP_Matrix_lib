@@ -18,8 +18,8 @@ class S21Matrix {
 
   int S21GetRows() const { return _rows; }
   int S21GetColumns() const { return _columns; }
-  void S21SetRows(double new_value) { _rows = new_value; }
-  void S21SetColumns(double new_value) { _columns = new_value; }
+  void S21SetRows(double new_value);
+  void S21SetColumns(double new_value);
   double** S21GetMatrix() const { return _matrix; }
 
   void S21OutputMatrix() const;
